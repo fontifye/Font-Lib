@@ -1,7 +1,8 @@
 local FontLibrary={}
-local TS=game:GetService("TweenService")
+
 local UIS=game:GetService("UserInputService")
 local CG=game:GetService("CoreGui")
+local TS=game:GetService("TweenService")
 
 local SG,Main,Dragging,DragStart,StartPos
 
@@ -17,20 +18,17 @@ local function Init()
  if gethui then SG.Parent=gethui() else SG.Parent=CG end
 
  Main=Instance.new("Frame",SG)
- Main.Size=UDim2.fromOffset(520,360)
+ Main.Size=UDim2.fromOffset(600,400)
  Main.Position=UDim2.fromScale(.5,.5)
  Main.AnchorPoint=Vector2.new(.5,.5)
- Main.BackgroundColor3=Color3.fromRGB(20,20,20)
+ Main.BackgroundColor3=Color3.fromRGB(18,18,18)
  Main.BorderSizePixel=0
- Main.Name="Main"
 
- local UIC=Instance.new("UICorner",Main)
- UIC.CornerRadius=UDim.new(0,10)
+ Instance.new("UICorner",Main).CornerRadius=UDim.new(0,10)
 
  local Top=Instance.new("Frame",Main)
  Top.Size=UDim2.new(1,0,0,40)
  Top.BackgroundTransparency=1
- Top.Name="Top"
 
  UIS.InputChanged:Connect(function(i)
   if Dragging and i.UserInputType==Enum.UserInputType.MouseMovement then
@@ -49,39 +47,39 @@ local function Init()
  end)
 end
 
-function FontLibrary:CreateWindow(c)
+function FontLibrary:CreateWindow(cfg)
  Init()
 
  local Title=Instance.new("TextLabel",Main)
  Title.Size=UDim2.new(1,0,0,40)
  Title.BackgroundTransparency=1
- Title.Text=c.Name or "Window"
- Title.TextColor3=Color3.new(1,1,1)
+ Title.Text=cfg.Name or "Font Library"
  Title.Font=Enum.Font.GothamBold
  Title.TextSize=16
+ Title.TextColor3=Color3.new(1,1,1)
 
  local Tabs=Instance.new("Frame",Main)
  Tabs.Position=UDim2.fromOffset(10,50)
- Tabs.Size=UDim2.fromOffset(140,300)
+ Tabs.Size=UDim2.fromOffset(150,340)
  Tabs.BackgroundTransparency=1
 
  local Pages=Instance.new("Frame",Main)
- Pages.Position=UDim2.fromOffset(160,50)
- Pages.Size=UDim2.fromOffset(350,300)
+ Pages.Position=UDim2.fromOffset(170,50)
+ Pages.Size=UDim2.fromOffset(420,340)
  Pages.BackgroundTransparency=1
 
  local TL=Instance.new("UIListLayout",Tabs)
  TL.Padding=UDim.new(0,6)
 
  local Window={}
- local CurrentPage
+ local CurrentPage=nil
 
  function Window:CreateTab(name)
   local Tab={}
   local Btn=Instance.new("TextButton",Tabs)
   Btn.Size=UDim2.new(1,0,0,32)
   Btn.Text=name
-  Btn.BackgroundColor3=Color3.fromRGB(30,30,30)
+  Btn.BackgroundColor3=Color3.fromRGB(28,28,28)
   Btn.TextColor3=Color3.new(1,1,1)
   Btn.Font=Enum.Font.Gotham
   Btn.TextSize=14
@@ -109,31 +107,31 @@ function FontLibrary:CreateWindow(c)
 
   function Tab:CreateSection(text)
    local L=Instance.new("TextLabel",Page)
-   L.Size=UDim2.new(1,0,0,28)
+   L.Size=UDim2.new(1,0,0,26)
+   L.BackgroundTransparency=1
    L.Text=text
    L.TextXAlignment=Left
-   L.BackgroundTransparency=1
-   L.TextColor3=Color3.fromRGB(180,180,180)
    L.Font=Enum.Font.GothamBold
    L.TextSize=14
+   L.TextColor3=Color3.fromRGB(180,180,180)
   end
 
   function Tab:CreateLabel(text)
    local L=Instance.new("TextLabel",Page)
-   L.Size=UDim2.new(1,0,0,24)
-   L.Text=text
-   L.TextWrapped=true
+   L.Size=UDim2.new(1,0,0,22)
    L.BackgroundTransparency=1
-   L.TextColor3=Color3.new(1,1,1)
+   L.TextWrapped=true
+   L.Text=text
    L.Font=Enum.Font.Gotham
    L.TextSize=13
+   L.TextColor3=Color3.new(1,1,1)
   end
 
-  function Tab:CreateButton(c)
+  function Tab:CreateButton(cfg)
    local B=Instance.new("TextButton",Page)
    B.Size=UDim2.new(1,0,0,32)
-   B.Text=c.Name or "Button"
-   B.BackgroundColor3=Color3.fromRGB(35,35,35)
+   B.Text=cfg.Name or "Button"
+   B.BackgroundColor3=Color3.fromRGB(34,34,34)
    B.TextColor3=Color3.new(1,1,1)
    B.Font=Enum.Font.Gotham
    B.TextSize=14
@@ -141,7 +139,7 @@ function FontLibrary:CreateWindow(c)
    Instance.new("UICorner",B).CornerRadius=UDim.new(0,6)
 
    B.MouseButton1Click:Connect(function()
-    if c.Callback then task.spawn(c.Callback) end
+    if cfg.Callback then task.spawn(cfg.Callback) end
    end)
   end
 
